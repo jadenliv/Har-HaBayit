@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Har HaBayit — The Halachic Case for Aliyah LaHar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C4A265;
+      --gold-light: #D4B97A;
+      --gold-faint: rgba(196, 162, 101, 0.08);
+      --gold-border: rgba(196, 162, 101, 0.25);
+      --stone: #F7F3EE;
+      --stone-dark: #EDE7DF;
+      --parchment: #FDFBF8;
+      --ink: #1A1A1A;
+      --ink-light: #3A3A3A;
+      --ink-muted: #6B6B6B;
+      --azure: #2C5F8A;
+      --azure-light: #3A7AB5;
+      --karet-red: #8B2020;
+      --karet-bg: rgba(139, 32, 32, 0.04);
+      --section-border: rgba(0, 0, 0, 0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--parchment);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(180deg, #0D0D0D 0%, #1A1510 40%, #2A2015 70%, #1A1510 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center 40%, rgba(196, 162, 101, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-hebrew {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      direction: rtl;
+      position: relative;
+    }
+
+    .hero-english {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gold-light);
+      max-width: 600px;
+      line-height: 1.8;
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      max-width: 500px;
+      line-height: 1.7;
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 3rem;
+      position: relative;
+    }
+
+    .hero-scroll {
+      position: relative;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .hero-scroll:hover { color: var(--gold); }
+    .hero-scroll::after {
+      content: '↓';
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      animation: bobDown 2s ease-in-out infinite;
+    }
+    @keyframes bobDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 280px;
+      height: 100vh;
+      background: #FAFAF7;
+      border-right: 1px solid var(--section-border);
+      padding: 2rem 1.5rem;
+      overflow-y: auto;
+      z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.35s ease;
+    }
+    .nav.open { transform: translateX(0); }
+
+    .nav-toggle {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.25rem;
+      z-index: 200;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid var(--section-border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .nav-toggle.visible { opacity: 1; pointer-events: all; }
+    .nav-toggle:hover { background: var(--gold); border-color: var(--gold); }
+    .nav-toggle:hover span { background: white; }
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--ink);
+      position: relative;
+      transition: background 0.3s;
+    }
+    .nav-toggle span::before,
+    .nav-toggle span::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 2px;
+      background: inherit;
+      left: 0;
+    }
+    .nav-toggle span::before { top: -6px; }
+    .nav-toggle span::after { top: 6px; }
+
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+
+    .nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .nav a {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      margin: 0.15rem 0;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--ink-muted);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s;
+      line-height: 1.4;
+    }
+    .nav a:hover {
+      color: var(--ink);
+      background: var(--gold-faint);
+    }
+    .nav a.active {
+      color: var(--gold);
+      background: var(--gold-faint);
+      font-weight: 500;
+    }
+
+    /* ── Main Content ── */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Section ── */
+    .section {
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--section-border);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.85;
+      margin-bottom: 3rem;
+      max-width: 650px;
+    }
+
+    /* ── Source Card ── */
+    .source-card {
+      background: white;
+      border: 1px solid var(--section-border);
+      border-radius: 12px;
+      padding: 2.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      transition: box-shadow 0.3s;
+    }
+    .source-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .source-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .source-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+
+    .hebrew-text {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 2;
+      color: var(--ink);
+      direction: rtl;
+      text-align: right;
+      background: var(--gold-faint);
+      border-right: 3px solid var(--gold);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1rem;
+    }
+
+    .english-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.85;
+      color: var(--ink-light);
+      padding: 0 0 0 1.5rem;
+      border-left: 2px solid var(--stone-dark);
+      margin-bottom: 1.25rem;
+    }
+
+    .commentary {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: var(--ink-light);
+      margin-bottom: 1rem;
+    }
+
+    .sefaria-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--azure);
+      text-decoration: none;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid rgba(44, 95, 138, 0.2);
+      border-radius: 20px;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    .sefaria-link:hover {
+      background: rgba(44, 95, 138, 0.06);
+      border-color: rgba(44, 95, 138, 0.4);
+    }
+    .sefaria-link::before {
+      content: '📖';
+      font-size: 0.75rem;
+    }
+
+    /* ── Warning Box ── */
+    .warning-box {
+      background: var(--karet-bg);
+      border: 1px solid rgba(139, 32, 32, 0.15);
+      border-left: 4px solid var(--karet-red);
+      border-radius: 0 10px 10px 0;
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+    }
+    .warning-box .warning-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--karet-red);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .warning-box p {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: var(--ink-light);
+    }
+
+    /* ── Table ── */
+    .machane-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .machane-table th {
+      background: var(--ink);
+      color: var(--gold-light);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 1.25rem;
+      text-align: left;
+    }
+    .machane-table td {
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--section-border);
+      background: white;
+    }
+    .machane-table tr:last-child td { border-bottom: none; }
+    .machane-table td:first-child {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* ── Subsection heading ── */
+    .sub-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .sub-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-right: 0.5rem;
+    }
+
+    /* ── Posek List ── */
+    .posek-list {
+      list-style: none;
+      padding: 0;
+    }
+    .posek-list li {
+      padding: 1.25rem 1.5rem;
+      background: white;
+      border: 1px solid var(--section-border);
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      transition: box-shadow 0.3s;
+    }
+    .posek-list li:hover {
+      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    }
+    .posek-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+    .posek-desc {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    /* ── Requirements List ── */
+    .req-list {
+      list-style: none;
+      padding: 0;
+      counter-reset: req;
+    }
+    .req-list li {
+      counter-increment: req;
+      padding: 1.5rem 1.5rem 1.5rem 4.5rem;
+      background: white;
+      border: 1px solid var(--section-border);
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+    .req-list li::before {
+      content: counter(req);
+      position: absolute;
+      left: 1.5rem;
+      top: 1.5rem;
+      width: 28px;
+      height: 28px;
+      background: var(--gold);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .req-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+    .req-desc {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    /* ── Summary List ── */
+    .summary-list {
+      list-style: none;
+      padding: 0;
+      counter-reset: summary;
+    }
+    .summary-list li {
+      counter-increment: summary;
+      padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      border-left: 2px solid var(--gold-border);
+    }
+    .summary-list li::before {
+      content: counter(summary) ".";
+      position: absolute;
+      left: 0.75rem;
+      top: 1.25rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .summary-list li p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--ink-light);
+    }
+    .summary-list li .source-ref {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Appendix ── */
+    .appendix-category {
+      margin-bottom: 2.5rem;
+    }
+    .appendix-category h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .appendix-list {
+      list-style: none;
+      padding: 0;
+    }
+    .appendix-list li {
+      padding: 0.5rem 0;
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      border-bottom: 1px solid var(--section-border);
+    }
+    .appendix-list li:last-child { border-bottom: none; }
+    .appendix-list .ref-name {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ── Closing ── */
+    .closing {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, var(--parchment) 0%, #F0ECE4 100%);
+    }
+    .closing-hebrew {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--gold);
+      direction: rtl;
+      margin-bottom: 1rem;
+    }
+    .closing-english {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .closing-ref {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    /* ── Highlight ── */
+    .highlight-box {
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin: 2rem 0;
+    }
+    .highlight-box p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--ink-light);
+    }
+    .highlight-box .highlight-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Note ── */
+    .note {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      font-style: italic;
+      margin: 1rem 0;
+      padding-left: 1rem;
+      border-left: 2px solid var(--stone-dark);
+    }
+
+    /* ── Response blocks ── */
+    .response-block {
+      background: white;
+      border: 1px solid var(--section-border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .response-block h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .response-block p {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: var(--ink-light);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .content { padding: 0 1.25rem; }
+      .section { padding: 3.5rem 0; }
+      .source-card { padding: 1.5rem; }
+      .hebrew-text { padding: 1rem 1.25rem; font-size: 1.05rem; }
+      .machane-table { font-size: 0.8rem; }
+      .machane-table th, .machane-table td { padding: 0.7rem 0.75rem; }
+      .req-list li { padding-left: 3.75rem; }
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--gold);
+      z-index: 300;
+      transition: width 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Nav Toggle -->
+<button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+  <span></span>
+</button>
+
+<!-- Nav Overlay -->
+<div class="nav-overlay" id="navOverlay"></div>
+
+<!-- Side Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-title">Contents</div>
+  <a href="#section-1">I. The Kedusha Demands Our Presence</a>
+  <a href="#section-2">II. The Three Machanot</a>
+  <a href="#section-3">III. The Boundaries Are Knowable</a>
+  <a href="#section-4">IV. Historical Precedent</a>
+  <a href="#section-5">V. Mora Mikdash</a>
+  <a href="#section-6">VI. Additional Mitzvot</a>
+  <a href="#section-7">VII. The Opposing View</a>
+  <a href="#section-8">VIII. Meta-Halachic Arguments</a>
+  <a href="#section-9">IX. Contemporary Poskim Who Permit</a>
+  <a href="#section-10">X. Practical Requirements</a>
+  <a href="#section-11">XI. Summary of the Argument</a>
+  <a href="#appendix">Appendix: Source Index</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero">
+  <div class="hero-hebrew">הר הבית</div>
+  <div class="hero-english">Har HaBayit</div>
+  <div class="hero-divider"></div>
+  <div class="hero-subtitle">The Halachic Case for Aliyah LaHar</div>
+  <div class="hero-desc">A Comprehensive Source Sheet — Primary Sources from Gemara, Rishonim, Acharonim &amp; Contemporary Poskim</div>
+  <a href="#section-1" class="hero-scroll">Begin</a>
+</header>
+
+<!-- Main Content -->
+<main class="content">
+
+  <!-- ═══════ SECTION I ═══════ -->
+  <section class="section" id="section-1">
+    <div class="section-number">Section I</div>
+    <h2 class="section-title">The Kedusha Demands Our Presence</h2>
+    <p class="section-intro">Har HaBayit is not merely a historical site. It is the spiritual epicenter of creation, the place where Heaven and Earth meet, the location the Creator chose as His dwelling among men. The kedusha of this place is so immense and so permanent that it calls out to us — it demands that we orient ourselves toward it, seek it out, and go there. The very holiness of the Makom is the reason to ascend, not the reason to stay away.</p>
+
+    <!-- A. Even HaShtiyah -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> Even HaShtiyah — The Foundation Stone</h3>
+
+    <div class="source-card">
+      <div class="source-label">Talmud Bavli</div>
+      <div class="source-title">Yoma 54b</div>
+      <div class="hebrew-text">תניא, רבי אליעזר אומר: עולם מאמצעיתו נברא... אבן אחת היתה שם, וממנה הושתת העולם... ולמה נקרא שמה אבן שתייה? שממנה הושתת העולם.</div>
+      <div class="english-text">It was taught, Rabbi Eliezer says: The world was created from its center... There was a stone there, and from it the world was founded... And why is it called the Foundation Stone? Because from it the world was founded.</div>
+      <p class="commentary">The Even HaShtiyah is the point from which all creation emanated. This is not metaphor — Chazal understood it as a real place with real spiritual significance. The place where creation began is the place we are drawn to return.</p>
+      <a href="https://www.sefaria.org/Yoma.54b" class="sefaria-link" target="_blank" rel="noopener">Yoma 54b</a>
+    </div>
+
+    <!-- B. The Eternal Altar -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> The Eternal Altar — From Adam to the Mikdash</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Beit HaBechira 2:1–2</div>
+      <div class="hebrew-text">מקום המזבח מכוון ביותר, ואינו משתנה לעולם... ומקובל ביד כל ישראל שהמקום שבנה דוד ושלמה בגורן ארונה הוא המקום שעקד בו אברהם ובנה בו המזבח ועקד בו יצחק, והוא המקום שבנה בו נח כשיצא מן התיבה, והוא המקום שהקריב בו קין והבל, ושם הקריב אדם הראשון קרבן כשנברא, ומשם נברא.</div>
+      <div class="english-text">The location of the Altar is extremely precise and it never changes... It is a tradition held by all Israel that the place where David and Shlomo built the Altar on the threshing floor of Aravna is the same place where Avraham built the Altar and bound Yitzchak, and the same place where Noach built after leaving the Ark, and the same where Kayin and Hevel offered, and where Adam HaRishon offered a korban when he was created — and from there he was created.</div>
+      <p class="commentary">Every generation from Adam onward was drawn to this spot. The Rambam is teaching us that the pull toward this Makom is woven into creation itself. The line of avodah is unbroken: Adam, Noach, Avraham, David, Shlomo — and us.</p>
+      <a href="https://www.sefaria.org/Mishneh_Torah%2C_The_Chosen_Temple.2.1" class="sefaria-link" target="_blank" rel="noopener">Rambam Beit HaBechira 2:1</a>
+    </div>
+
+    <!-- C. The Kedusha is Eternal -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> The Kedusha is Eternal — The Shechina Never Departed</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Beit HaBechira 6:15–16</div>
+      <div class="hebrew-text">קדושת המקדש וקדושת ירושלים קדושתן לעולם... ולמה אני אומר שקדושת המקדש וירושלים קדשה לעולם? מפני שקדושת המקדש וירושלים מפני השכינה, ושכינה אינה בטלה.</div>
+      <div class="english-text">The sanctity of the Mikdash and of Yerushalayim endures forever... And why do I say that the kedusha of the Mikdash and Yerushalayim is eternal? Because the kedusha of the Mikdash and Yerushalayim derives from the Shechina, and the Shechina is never nullified.</div>
+      <p class="commentary">The Shechina is still there. The walls fell, the stones were scattered, the enemy occupies the surface — but the Shechina remains. If the Shechina never left, how can we?</p>
+      <a href="https://www.sefaria.org/Mishneh_Torah%2C_The_Chosen_Temple.6.15" class="sefaria-link" target="_blank" rel="noopener">Rambam Beit HaBechira 6:15</a>
+    </div>
+
+    <!-- D. Seek His Dwelling -->
+    <h3 class="sub-heading"><span class="sub-label">D.</span> "Seek His Dwelling and Go There"</h3>
+
+    <div class="source-card">
+      <div class="source-label">Torah</div>
+      <div class="source-title">Devarim 12:5</div>
+      <div class="hebrew-text">כי אם אל המקום אשר יבחר ה׳ אלהיכם מכל שבטיכם לשום את שמו שם, לשכנו תדרשו ובאת שמה.</div>
+      <div class="english-text">Rather, to the place that Hashem your God will choose from all your tribes to place His Name there — seek out His dwelling-place and go there.</div>
+      <p class="commentary">This is a positive command. <em>Lishkhno tidreshu</em> — SEEK it. <em>U'vata shama</em> — and GO there. The Torah does not say "wait." It does not say "avoid." It says seek and go.</p>
+      <a href="https://www.sefaria.org/Deuteronomy.12.5" class="sefaria-link" target="_blank" rel="noopener">Devarim 12:5</a>
+    </div>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Sefer HaMitzvot, Aseh 20; Hilchot Beit HaBechira 1:1</div>
+      <div class="hebrew-text">מצות עשה לעשות בית לה׳</div>
+      <div class="english-text">It is a positive commandment to build a House for Hashem.</div>
+      <p class="commentary">The Rambam counts the building of the Mikdash as a mitzvat aseh. The drive to build, to seek, to be present at the Makom — this is commanded, not optional.</p>
+      <a href="https://www.sefaria.org/Mishneh_Torah%2C_Positive_Mitzvot.20" class="sefaria-link" target="_blank" rel="noopener">Rambam Sefer HaMitzvot Aseh 20</a>
+    </div>
+
+    <!-- E. Mapping of Heaven and Earth -->
+    <h3 class="sub-heading"><span class="sub-label">E.</span> The Mapping of Heaven and Earth</h3>
+
+    <div class="source-card">
+      <div class="source-label">Talmud Bavli</div>
+      <div class="source-title">Zevachim 116b</div>
+      <p class="commentary">The Gemara establishes that the tripartite division of machanot (Yisrael, Leviya, Shechina) that operated in the Midbar maps directly onto the permanent geography of Yerushalayim and the Mikdash.</p>
+      <p class="commentary">What applied in the Midbar applies forever in Yerushalayim. The structure of kedusha is not historical — it is eternal. The geography of Har HaBayit is the architecture of the relationship between Hashem and His people.</p>
+      <a href="https://www.sefaria.org/Zevachim.116b" class="sefaria-link" target="_blank" rel="noopener">Zevachim 116b</a>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION II ═══════ -->
+  <section class="section" id="section-2">
+    <div class="section-number">Section II</div>
+    <h2 class="section-title">The Three Machanot and Their Halachic Mapping</h2>
+    <p class="section-intro">The Torah divides the encampment into three concentric zones of ascending kedusha. Each zone has distinct restrictions on who may enter while in a state of tumah. Understanding this structure is the key to the entire she'elah.</p>
+
+    <table class="machane-table">
+      <thead>
+        <tr>
+          <th>Machane</th>
+          <th>In the Midbar</th>
+          <th>In Yerushalayim</th>
+          <th>Who is Excluded</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machane Yisrael</td>
+          <td>Israelite camp</td>
+          <td>Walled city of Yerushalayim</td>
+          <td>Metzora only</td>
+        </tr>
+        <tr>
+          <td>Machane Leviya</td>
+          <td>Levite camp</td>
+          <td>Har HaBayit (Temple Mount)</td>
+          <td>Metzora, Zav/Zavah</td>
+        </tr>
+        <tr>
+          <td>Machane Shechina</td>
+          <td>Mishkan courtyard</td>
+          <td>The Azara (Temple courtyard)</td>
+          <td>All above + Tamei Met</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- A. Torah Source -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> The Torah Source</h3>
+
+    <div class="source-card">
+      <div class="source-label">Torah</div>
+      <div class="source-title">Bamidbar 5:1–4</div>
+      <div class="hebrew-text">צו את בני ישראל וישלחו מן המחנה כל צרוע וכל זב וכל טמא לנפש.</div>
+      <div class="english-text">Command the Children of Israel that they send out from the camp every metzora, every zav, and everyone who is tamei from a dead body.</div>
+      <p class="commentary">The Torah establishes three distinct categories of tumah with three distinct levels of exclusion. Chazal derive the three machanot from these distinctions.</p>
+    </div>
+
+    <!-- B. The Gemara -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> The Gemara</h3>
+
+    <div class="source-card">
+      <div class="source-label">Talmud Bavli</div>
+      <div class="source-title">Pesachim 67a</div>
+      <div class="hebrew-text">טמא מת משתלח חוץ לשתי מחנות... זב וזבה משתלחין חוץ לשלש מחנות... מצורע משתלח חוץ לכל שלש מחנות.</div>
+      <div class="english-text">A tamei met is sent out of only two machanot [permitted in Machane Yisrael]... A zav and zavah are sent out of three machanot [permitted only outside all camps]... A metzora is sent out of all three machanot.</div>
+      <p class="commentary">The Gemara establishes definitively: a tamei met is excluded ONLY from Machane Shechina (the Azara). He remains permitted in Machane Leviya (Har HaBayit) and Machane Yisrael (Yerushalayim).</p>
+      <a href="https://www.sefaria.org/Pesachim.67a" class="sefaria-link" target="_blank" rel="noopener">Pesachim 67a</a>
+    </div>
+
+    <!-- C. Rambam's Codification -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> The Rambam's Codification</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Biat HaMikdash 3:3–5</div>
+      <div class="hebrew-text">טמא מת מותר ליכנס להר הבית... ואם נכנס לעזרה חייב כרת.</div>
+      <div class="english-text">A tamei met is permitted to enter Har HaBayit [Machane Leviya]... but if he enters the Azara [Machane Shechina] he is liable for karet.</div>
+      <p class="commentary">This is the linchpin. The Rambam rules clearly: Har HaBayit = Machane Leviya. A tamei met is PERMITTED there. The karet prohibition applies ONLY to the Azara. Since every Jew alive today is presumed tamei met (we lack a parah adumah), the crucial question is simply: can we identify where the Azara is so as to avoid it?</p>
+      <a href="https://www.sefaria.org/Mishneh_Torah%2C_Entering_the_Temple.3.3" class="sefaria-link" target="_blank" rel="noopener">Rambam Biat HaMikdash 3:3</a>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-label">⚠ Critical Practical Point</div>
+      <p>Although a tamei met may enter Machane Leviya, a ba'al keri (one who has had a seminal emission) is excluded even from Machane Leviya (Rambam Biat HaMikdash 3:3). Therefore, immersion in a mikveh before ascending is an <strong>absolute requirement</strong> according to all mattir poskim. Similarly, a niddah or zavah is excluded from Machane Leviya. This is not a chumra — it is baseline halacha.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION III ═══════ -->
+  <section class="section" id="section-3">
+    <div class="section-number">Section III</div>
+    <h2 class="section-title">The Boundaries Are Knowable</h2>
+    <p class="section-intro">The central objection of those who prohibit ascending is that we cannot determine the boundaries of the Azara with certainty, and since the penalty is karet, we must err on the side of caution. The mattir position must demonstrate — and does demonstrate — that the boundaries are knowable.</p>
+
+    <!-- A. Mishnah Middot -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> Mishnah Middot — The Measurements</h3>
+
+    <div class="source-card">
+      <div class="source-label">Mishnah</div>
+      <div class="source-title">Middot 2:1</div>
+      <div class="hebrew-text">הר הבית היה חמש מאות אמה על חמש מאות אמה. רוב מדתו מן הדרום, מן המזרח, מן הצפון, מן המערב.</div>
+      <div class="english-text">Har HaBayit was 500 amot by 500 amot. The largest space was to the south, then to the east, then to the north, then to the west.</div>
+      <p class="commentary">The Mishnah gives us precise measurements. Combined with the statement that the greatest open space was to the south, this allows us to calculate the position of the Azara within the larger Har HaBayit compound. The southern portion of Har HaBayit is the farthest from the Azara by all calculations.</p>
+      <a href="https://www.sefaria.org/Mishnah_Middot.2.1" class="sefaria-link" target="_blank" rel="noopener">Middot 2:1</a>
+    </div>
+
+    <!-- B. The Radvaz -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> The Radvaz — Location of Even HaShtiyah</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rishon / Acharon</div>
+      <div class="source-title">Radvaz (Rabbi David ibn Zimra), Responsa 2:691</div>
+      <p class="commentary">The Radvaz discusses the location of the Even HaShtiyah and identifies it with the rock under the Dome of the Rock, based on both Jewish tradition and the consistent testimony of Arab tradition.</p>
+      <p class="commentary">A major Rishon-era posek affirms that the core geography was identifiable in his time. The identification of the rock under the Dome has remained consistent from the Radvaz through the present day. This anchors all subsequent calculations.</p>
+    </div>
+
+    <!-- C. Kaftor VaFerach -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> Kaftor VaFerach (R' Ishtori HaParchi, 14th c.)</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rishon</div>
+      <div class="source-title">Kaftor VaFerach, Chapter 6</div>
+      <p class="commentary">R' Ishtori HaParchi visited Eretz Yisrael and conducted detailed study of the physical dimensions and geography of Har HaBayit, working from Mishnah Middot and direct observation. He provides measurements and identifications of the site's features.</p>
+      <p class="commentary">One of the earliest post-Rambam authorities to physically engage with the site. His work is foundational for mapping halachic boundaries onto physical geography.</p>
+    </div>
+
+    <!-- D. Rav Goren -->
+    <h3 class="sub-heading"><span class="sub-label">D.</span> Rav Shlomo Goren — Modern Mapping</h3>
+
+    <div class="source-card">
+      <div class="source-label">Contemporary</div>
+      <div class="source-title">Rav Shlomo Goren, Sefer Har HaBayit (1992)</div>
+      <p class="commentary">After the liberation of the Old City in 1967, Rav Goren conducted extensive research combining Middot, archaeological evidence, and topographic analysis. He concluded that specific pathways on Har HaBayit are certainly outside the Azara and are therefore permissible for a tamei met who has immersed.</p>
+      <p class="commentary">Rav Goren's work is the most comprehensive modern study mapping halachic boundaries onto the physical site. His methodology is rigorous and draws on all available evidence.</p>
+    </div>
+
+    <p class="note">The commonly cited figure that the Azara comprises approximately 13% of the total Har HaBayit surface area is a modern calculation derived from cross-referencing Middot with archaeological surveys. It is not from Chazal, but it is based on their measurements.</p>
+  </section>
+
+  <!-- ═══════ SECTION IV ═══════ -->
+  <section class="section" id="section-4">
+    <div class="section-number">Section IV</div>
+    <h2 class="section-title">Historical Precedent for Ascending</h2>
+
+    <!-- A. The Rambam -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> The Rambam Himself Went Up</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Iggeret (Letter, dated 1165 CE)</div>
+      <div class="hebrew-text">נכנסנו לבית הגדול והקדוש והתפללנו שם... ואותו יום שנכנסנו לבית הגדול, עשינוהו יום טוב.</div>
+      <div class="english-text">We entered the great and holy House and prayed there... And that day on which we entered the great House, we made a personal yom tov.</div>
+      <p class="commentary">The Rambam — the very posek who codified the laws of tumah, the machanot, and the penalties for unauthorized entry — ascended Har HaBayit himself. He clearly held that entry was permissible with knowledge of the boundaries. His actions are the most powerful precedent.</p>
+      <p class="note">This letter is published in Iggrot HaRambam (ed. Sheilat), Vol. 1.</p>
+    </div>
+
+    <!-- B. The Meiri -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> The Meiri</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rishon</div>
+      <div class="source-title">Meiri, Beit HaBechira on Shevuot 16a</div>
+      <p class="commentary">The Meiri discusses the status of the site and engages with the question of ongoing kedusha as a live halachic matter. His treatment implies familiarity with entry to certain areas of the Har in the Rishonim period.</p>
+      <p class="commentary">Further evidence that post-Churban entry was not universally prohibited. The blanket prohibition often assumed to be ancient is in fact a relatively late development.</p>
+    </div>
+
+    <!-- C. Multiple Medieval Accounts -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> Multiple Medieval Accounts</h3>
+
+    <div class="source-card">
+      <p class="commentary">Multiple accounts from the medieval period describe Jewish entry onto Har HaBayit, including accounts from the Crusader era and Mamluk period. Jewish presence on the Har was documented by travelers and halachic authorities over centuries. The blanket prohibition became dominant primarily after the Chief Rabbinate's ruling following 1967.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION V ═══════ -->
+  <section class="section" id="section-5">
+    <div class="section-number">Section V</div>
+    <h2 class="section-title">Mora Mikdash — Awe That Presupposes Entry</h2>
+
+    <div class="source-card">
+      <div class="source-label">Torah</div>
+      <div class="source-title">Vayikra 19:30</div>
+      <div class="hebrew-text">את שבתתי תשמרו ומקדשי תיראו אני ה׳.</div>
+      <div class="english-text">You shall guard My Shabbatot and revere My Mikdash — I am Hashem.</div>
+      <p class="commentary">The mitzvah of mora mikdash — awe and reverence for the Mikdash — is a positive commandment.</p>
+      <a href="https://www.sefaria.org/Leviticus.19.30" class="sefaria-link" target="_blank" rel="noopener">Vayikra 19:30</a>
+    </div>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Beit HaBechira 7:1–7</div>
+      <div class="hebrew-text">מצות עשה לירא מן המקדש... לא יכנס להר הבית במקלו, ולא במנעלו, ולא באבק שעל רגליו, ולא בפונדקו, ולא יעשנו קפנדריא.</div>
+      <div class="english-text">It is a positive commandment to revere the Mikdash... One may not enter Har HaBayit with his walking stick, or with his shoes, or with dust on his feet, or with his money-belt, or make it a shortcut.</div>
+      <a href="https://www.sefaria.org/Mishneh_Torah%2C_The_Chosen_Temple.7.1" class="sefaria-link" target="_blank" rel="noopener">Rambam Beit HaBechira 7:1</a>
+    </div>
+
+    <div class="highlight-box">
+      <div class="highlight-label">Key Insight</div>
+      <p>The mattir poskim make a critical observation: Mora mikdash is a mitzvah that <strong>presupposes entry</strong>. The Rambam is telling you HOW to enter Har HaBayit — without shoes, without a stick, without a money-belt, without making it a shortcut. These are instructions for someone who IS entering. You cannot fulfill mora mikdash from outside. If the Torah forbade all entry, these halachot would be meaningless. The Torah is commanding reverent entry, not avoidance.</p>
+    </div>
+
+    <div class="source-card">
+      <div class="source-label">Talmud Bavli</div>
+      <div class="source-title">Brachot 54a</div>
+      <p class="commentary">One may not enter Har HaBayit with his shoes on. The Gemara discusses the conduct required on the Har — additional Talmudic source for the practical halachot of how one conducts oneself ON Har HaBayit, presupposing entry.</p>
+    </div>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Beit HaBechira 7:7</div>
+      <div class="hebrew-text">אף על פי שהמקדש חרב, מצוה עלינו לנהוג בו במורא ויראה.</div>
+      <div class="english-text">Even though the Mikdash is destroyed, we are commanded to conduct ourselves there with awe and reverence.</div>
+      <p class="commentary">The Rambam explicitly states: EVEN IN DESTRUCTION, the mitzvah of mora mikdash applies. The mitzvah is current, active, and obligatory. A mitzvah that requires conduct at the site necessarily requires presence at the site.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION VI ═══════ -->
+  <section class="section" id="section-6">
+    <div class="section-number">Section VI</div>
+    <h2 class="section-title">Additional Mitzvot Connected to the Site</h2>
+
+    <!-- A. Yishuv -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> Yishuv Eretz Yisrael and Sovereignty</h3>
+
+    <div class="source-card">
+      <div class="source-label">Ramban</div>
+      <div class="source-title">Hasagot to Sefer HaMitzvot, Aseh 4</div>
+      <div class="hebrew-text">שנצטוינו לרשת את הארץ... שלא נעזבה ביד אומה אחרת מן האומות.</div>
+      <div class="english-text">We were commanded to inherit the Land... and not to leave it in the hands of any other nation.</div>
+      <p class="commentary">The Ramban counts yishuv Eretz Yisrael as a mitzvat aseh min HaTorah, including the dimension of sovereignty — not leaving the Land in the hands of another nation. Voluntary Jewish absence from the holiest site while non-Jews access it freely raises serious concerns.</p>
+    </div>
+
+    <!-- B. Lo Techanem -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> Lo Techanem</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Avodah Zarah 10:3–4</div>
+      <div class="hebrew-text">לא תחנם... לא תיתן להם חנייה בקרקע.</div>
+      <div class="english-text">Lo techanem — do not give them a foothold in the Land.</div>
+      <p class="commentary">Some poskim apply this principle to Har HaBayit: ceding effective control of the site to non-Jewish authority may implicate this prohibition.</p>
+    </div>
+
+    <!-- C. Korban Pesach -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> Korban Pesach and Karet</h3>
+
+    <div class="source-card">
+      <div class="source-label">Torah</div>
+      <div class="source-title">Bamidbar 9:13</div>
+      <div class="hebrew-text">והאיש אשר הוא טהור ודרך לא היה וחדל לעשות הפסח ונכרתה הנפש ההוא מעמיה.</div>
+      <div class="english-text">And the person who is tahor and was not on a journey, and yet fails to bring the Pesach offering — that soul shall be cut off from its people.</div>
+      <p class="commentary">The Torah prescribes karet for failing to bring the Korban Pesach when able. Whether this obligation applies today is disputed, but the she'elah itself underscores the gravity of what is at stake: blanket avoidance of the site may not only forfeit positive mitzvot but potentially incur karet for their neglect.</p>
+      <a href="https://www.sefaria.org/Numbers.9.13" class="sefaria-link" target="_blank" rel="noopener">Bamidbar 9:13</a>
+    </div>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Beit HaBechira 6:15 + Hilchot Korban Pesach 1:1</div>
+      <p class="commentary">If the kedusha of the Makom endures (as the Rambam rules), and if the requirement to bring korbanot is tied to the Makom rather than the structure, the theoretical obligation to bring the Korban Pesach may persist today. This position has been discussed by the Chazon Ish and others, though it remains a matter of active machloket.</p>
+      <p class="commentary">This is not settled halacha. But the mattir poskim raise it to illustrate the depth of what is potentially at stake: we may not only be forgoing optional merit but actively failing a Torah obligation.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION VII ═══════ -->
+  <section class="section" id="section-7">
+    <div class="section-number">Section VII</div>
+    <h2 class="section-title">The Opposing View — Those Who Prohibit</h2>
+    <p class="section-intro">Intellectual honesty requires engaging seriously with the opposing position. The prohibition of ascending is held by significant poskim. Their reasoning must be understood and addressed.</p>
+
+    <!-- A. Rav Ovadia -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> Rav Ovadia Yosef</h3>
+
+    <div class="source-card">
+      <div class="source-label">Contemporary</div>
+      <div class="source-title">Yabia Omer, Vol. 5, Yoreh De'ah 26</div>
+      <p class="commentary">Rav Ovadia rules that one should NOT ascend Har HaBayit. His primary concerns: (1) The exact boundaries of the Azara cannot be determined with sufficient certainty; (2) Since the punishment for entering the Azara while tamei met is karet, we must err on the side of caution (safek karet lechumra); (3) Practical difficulty of ensuring proper preparation for all who go up; (4) Mora mikdash counsels against casual entry.</p>
+      <p class="commentary">Rav Ovadia's approach is characteristically conservative on matters of potential karet. His position must be taken seriously.</p>
+    </div>
+
+    <!-- B. Chief Rabbinate -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> The Chief Rabbinate Ban (1967)</h3>
+
+    <div class="source-card">
+      <p class="commentary">Immediately after the Six-Day War, the Chief Rabbinate issued a statement prohibiting Jews from ascending. This was signed by both Chief Rabbis and reaffirmed multiple times. The reasoning overlapped with Rav Ovadia's concerns: uncertainty about boundaries, severity of karet, and concerns about public compliance.</p>
+    </div>
+
+    <!-- C. Chareidi -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> The Chareidi Consensus</h3>
+
+    <div class="source-card">
+      <p class="commentary">The broad Chareidi consensus prohibits ascending. Poskim including Rav Elyashiv, students of the Chazon Ish, and the Eidah Chareidit maintain this position. The Chareidi argument often adds a theological dimension: that asserting sovereignty before Mashiach is inappropriate. This is a hashkafic argument, not a strictly halachic one.</p>
+    </div>
+
+    <!-- D. Responses -->
+    <h3 class="sub-heading"><span class="sub-label">D.</span> Responses to the Opposing View</h3>
+
+    <div class="response-block">
+      <h4>On boundary uncertainty:</h4>
+      <p>The Radvaz, Kaftor VaFerach, and Rav Goren have demonstrated that the boundaries are knowable. Modern archaeology has only increased certainty. The Rambam himself ascended, demonstrating confidence in boundary identification. The southern portion of Har HaBayit is certainly outside the Azara by ALL opinions and calculations.</p>
+    </div>
+
+    <div class="response-block">
+      <h4>On safek karet:</h4>
+      <p>This principle applies where there is genuine doubt. Where an area has been positively identified as outside the Azara, there is no safek. Walking in the southern section of Har HaBayit is not a safek karet any more than walking anywhere else in Yerushalayim.</p>
+    </div>
+
+    <div class="response-block">
+      <h4>On practical compliance:</h4>
+      <p>The mattir poskim require specific preparation: tevila, removal of leather shoes, restricted routes, proper kavanah. The argument that people will not comply is a reason to educate, not a reason to prohibit.</p>
+    </div>
+
+    <div class="response-block">
+      <h4>On the theological argument:</h4>
+      <p>The claim that we must wait for Mashiach before ascending has no formal halachic basis. The Rambam ascended. The Ramban counted sovereignty as a mitzvah. The return to Eretz Yisrael and Yerushalayim is itself part of the geulah process, not something that only begins after it is complete.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION VIII ═══════ -->
+  <section class="section" id="section-8">
+    <div class="section-number">Section VIII</div>
+    <h2 class="section-title">Meta-Halachic Arguments</h2>
+
+    <!-- A. The Taz -->
+    <h3 class="sub-heading"><span class="sub-label">A.</span> The Taz — A Gezeira Cannot Permanently Uproot a Mitzvah</h3>
+
+    <div class="source-card">
+      <div class="source-label">Acharon</div>
+      <div class="source-title">Taz, Orach Chaim 588</div>
+      <p class="commentary">The Taz discusses the principle that a rabbinic gezeira cannot permanently abolish a Torah mitzvah. His context is tekiat shofar when Rosh HaShanah falls on Shabbat, where Chazal suspended shofar blowing to prevent carrying.</p>
+      <p class="commentary">The mattir poskim apply this principle: if there are Torah mitzvot connected to Har HaBayit (mora mikdash, lishkhno tidreshu, potentially korbanot), a blanket rabbinic prohibition that bars Jews from the site indefinitely may exceed the legitimate scope of a gezeira. A gezeira is meant to be a fence around a mitzvah, not a wall that replaces it.</p>
+      <p class="note">Caveat: The Taz himself does not apply this to Har HaBayit. The application is by analogy. But the principle is well-established, and several contemporary poskim have invoked it.</p>
+    </div>
+
+    <!-- B. Authority -->
+    <h3 class="sub-heading"><span class="sub-label">B.</span> Authority: Gedolim vs. Sanhedrin</h3>
+
+    <div class="source-card">
+      <div class="source-label">Rambam</div>
+      <div class="source-title">Hilchot Mamrim 1:1–2</div>
+      <div class="hebrew-text">בית דין הגדול שבירושלים הם עיקר תורה שבעל פה, והם עמודי ההוראה ומהן הדת והמשפט יוצאים לכל ישראל.</div>
+      <div class="english-text">The Great Beit Din in Yerushalayim is the foundation of the Oral Torah. They are the pillars of instruction, and from them law and judgment go forth to all Israel.</div>
+      <p class="commentary">Binding national halachic legislation (gezeirot and takkanot obligating all Israel) can only be enacted by a Sanhedrin or a Beit Din accepted by all Israel. Individual poskim — however great — do not have the formal authority to enact permanent national prohibitions. The Chief Rabbinate ban and the consensus of individual Gedolim, while deserving great respect, do not carry the formal weight of a Sanhedrin-level decree.</p>
+      <a href="https://www.sefaria.org/Mishneh_Torah%2C_Rebels.1.1" class="sefaria-link" target="_blank" rel="noopener">Rambam Hilchot Mamrim 1:1</a>
+    </div>
+
+    <!-- C. Lifnei Iver -->
+    <h3 class="sub-heading"><span class="sub-label">C.</span> The Lifnei Iver Consideration</h3>
+
+    <div class="source-card">
+      <p class="commentary">A practical meta-argument: Jews are ascending Har HaBayit in growing numbers regardless of rabbinic rulings. If the only people who comply with the prohibition are the halachically-committed — exactly those who WOULD prepare properly with tevila and proper conduct — while those who disregard rabbinic authority go up unprepared, the prohibition becomes counterproductive. Providing proper halachic guidance may be the more responsible approach. The careful Jews stay away; the careless ones go up without preparation. Who benefits from this arrangement?</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION IX ═══════ -->
+  <section class="section" id="section-9">
+    <div class="section-number">Section IX</div>
+    <h2 class="section-title">Contemporary Poskim Who Permit</h2>
+    <p class="section-intro">The following poskim have ruled that ascending Har HaBayit is permitted with proper preparation. This is not a fringe position — it is a legitimate halachic view held by serious talmidei chachamim.</p>
+
+    <ul class="posek-list">
+      <li>
+        <div class="posek-name">Rav Shlomo Goren (1917–2005)</div>
+        <div class="posek-desc">Former Ashkenazi Chief Rabbi of Israel and former IDF Chief Rabbi. Conducted the most extensive modern study of the site. Published <em>Sefer Har HaBayit</em> with detailed halachic-geographic analysis.</div>
+      </li>
+      <li>
+        <div class="posek-name">Rav Dov Lior</div>
+        <div class="posek-desc">Chief Rabbi of Kiryat Arba–Hevron. Senior dati leumi posek who has repeatedly ruled that ascending is permissible with proper preparation.</div>
+      </li>
+      <li>
+        <div class="posek-name">Rav Yisrael Ariel</div>
+        <div class="posek-desc">Head of Machon HaMikdash (Temple Institute). Has written extensively on permissibility and published detailed maps of permissible routes.</div>
+      </li>
+      <li>
+        <div class="posek-name">Rav She'ar Yashuv Cohen (1927–2016)</div>
+        <div class="posek-desc">Former Chief Rabbi of Haifa. Supported permissibility with proper preparation.</div>
+      </li>
+      <li>
+        <div class="posek-name">Rav Nachum Rabinovitch (1928–2020)</div>
+        <div class="posek-desc">Rosh Yeshivat Birkat Moshe (Ma'ale Adumim). Major halachic authority who ruled in favor with conditions.</div>
+      </li>
+      <li>
+        <div class="posek-name">Rav Chaim Druckman (1932–2022)</div>
+        <div class="posek-desc">Senior dati leumi figure who supported ascending Har HaBayit.</div>
+      </li>
+    </ul>
+
+    <div class="highlight-box">
+      <div class="highlight-label">The Rambam as Ultimate Precedent</div>
+      <p>Rabbeinu Moshe ben Maimon ascended Har HaBayit in 1165 and made it a yom tov. He is the authority who codified the laws of tumah, the machanot, and the penalties for unauthorized entry. His practice speaks louder than any theoretical prohibition.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION X ═══════ -->
+  <section class="section" id="section-10">
+    <div class="section-number">Section X</div>
+    <h2 class="section-title">Practical Requirements for Ascending</h2>
+    <p class="section-intro">According to the mattir poskim, the following are REQUIRED — not optional — conditions for ascending Har HaBayit.</p>
+
+    <ul class="req-list">
+      <li>
+        <div class="req-title">Tevila in a Mikveh</div>
+        <div class="req-desc">Immersion in a kosher mikveh on the day of ascent. This addresses tum'at ba'al keri and other tum'ot that bar entry even to Machane Leviya. Non-negotiable. (Rambam, Biat HaMikdash 3:3)</div>
+      </li>
+      <li>
+        <div class="req-title">Removal of Leather Shoes</div>
+        <div class="req-desc">One may not enter Har HaBayit wearing leather shoes. (Rambam, Beit HaBechira 7:2; Brachot 54a)</div>
+      </li>
+      <li>
+        <div class="req-title">No Unnecessary Items</div>
+        <div class="req-desc">One should not enter with a wallet, walking stick, backpack, or similar items. Entry should be purposeful. (Rambam, Beit HaBechira 7:2–3)</div>
+      </li>
+      <li>
+        <div class="req-title">Restricted Routes Only</div>
+        <div class="req-desc">One must follow routes identified as certainly outside the Azara. The standard route follows the southern and eastern edges. One must NOT walk into the central/northern area near the Dome of the Rock. (Rav Goren, Sefer Har HaBayit; Machon HaMikdash maps)</div>
+      </li>
+      <li>
+        <div class="req-title">Proper Kavanah and Mora Mikdash</div>
+        <div class="req-desc">Entry should be with yir'at shamayim, tefillah, and consciousness of the kedusha. Mora mikdash is a mitzvah to be fulfilled at the site. (Rambam, Beit HaBechira 7:1, 7:7)</div>
+      </li>
+      <li>
+        <div class="req-title">Women: Niddah Status</div>
+        <div class="req-desc">A woman in a state of niddah is excluded from Machane Leviya (categorized with zavah). A woman who has counted properly, immersed, and is tehorah may ascend. This is a significant practical limitation.</div>
+      </li>
+      <li>
+        <div class="req-title">Not Using the Har as a Shortcut</div>
+        <div class="req-desc">One may not enter the Har merely to cut through to another location. Entry must be for the sake of the Makom itself. (Rambam, Beit HaBechira 7:2)</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ═══════ SECTION XI ═══════ -->
+  <section class="section" id="section-11">
+    <div class="section-number">Section XI</div>
+    <h2 class="section-title">Summary of the Argument</h2>
+
+    <ol class="summary-list">
+      <li>
+        <p>The kedusha of the Makom HaMikdash is eternal. The Shechina never departed. The place that drew Adam, Noach, Avraham, and David draws us still.</p>
+        <div class="source-ref">Rambam, Beit HaBechira 6:15–16; Yoma 54b</div>
+      </li>
+      <li>
+        <p>The Torah commands us to seek out the place of the Shechina and go there.</p>
+        <div class="source-ref">Devarim 12:5; Rambam, Sefer HaMitzvot Aseh 20</div>
+      </li>
+      <li>
+        <p>The tripartite machane structure maps onto Yerushalayim: Yerushalayim = Machane Yisrael, Har HaBayit = Machane Leviya, the Azara = Machane Shechina.</p>
+        <div class="source-ref">Pesachim 67a; Zevachim 116b</div>
+      </li>
+      <li>
+        <p>A tamei met — which includes every Jew alive today — is prohibited from entering the Azara but IS PERMITTED to enter Har HaBayit (Machane Leviya).</p>
+        <div class="source-ref">Rambam, Biat HaMikdash 3:4–5</div>
+      </li>
+      <li>
+        <p>Other forms of tumah (ba'al keri, niddah, zav) DO restrict entry to Machane Leviya, and therefore immersion in a mikveh is required.</p>
+        <div class="source-ref">Rambam, Biat HaMikdash 3:3</div>
+      </li>
+      <li>
+        <p>The boundaries of the Azara are knowable through Mishnah Middot, the Radvaz, Kaftor VaFerach, archaeological evidence, and Rav Goren's comprehensive research.</p>
+      </li>
+      <li>
+        <p>The Rambam himself ascended Har HaBayit in 1165 CE and made it a personal yom tov. Additional Rishonim-era evidence supports the practice.</p>
+        <div class="source-ref">Iggrot HaRambam</div>
+      </li>
+      <li>
+        <p>Mora Mikdash is a mitzvah that presupposes entry. The Torah commands conduct ON the Har. Even in destruction, this mitzvah applies.</p>
+        <div class="source-ref">Rambam, Beit HaBechira 7:1, 7:7</div>
+      </li>
+      <li>
+        <p>Multiple Torah mitzvot are connected to the site (mora mikdash, lishkhno tidreshu, yishuv ha'aretz), and a blanket prohibition preventing their fulfillment indefinitely is difficult to sustain.</p>
+        <div class="source-ref">Taz, OC 588</div>
+      </li>
+      <li>
+        <p>The authority to enact binding national prohibitions belongs to the Sanhedrin, not individual poskim.</p>
+        <div class="source-ref">Rambam, Hilchot Mamrim 1–2</div>
+      </li>
+      <li>
+        <p>The opposing view — led by Rav Ovadia Yosef, the Chief Rabbinate, and the Chareidi consensus — is based on genuine concerns about boundary uncertainty and karet. These concerns are addressed by the mattir poskim but deserve serious engagement.</p>
+      </li>
+      <li>
+        <p>Ascending Har HaBayit with proper preparation is a legitimate halachic position held by major poskim, grounded in Rishonim and Gemara, and supported by the Rambam's own practice.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ═══════ APPENDIX ═══════ -->
+  <section class="section" id="appendix">
+    <div class="section-number">Appendix</div>
+    <h2 class="section-title">Source Index</h2>
+
+    <div class="appendix-category">
+      <h3>Tanakh</h3>
+      <ul class="appendix-list">
+        <li><span class="ref-name">Vayikra 19:30</span> — Mora Mikdash</li>
+        <li><span class="ref-name">Bamidbar 5:1–4</span> — Sending out the temei'im from the machanot</li>
+        <li><span class="ref-name">Bamidbar 9:13</span> — Karet for failure to bring Korban Pesach</li>
+        <li><span class="ref-name">Devarim 12:5</span> — Lishkhno tidreshu u'vata shama</li>
+      </ul>
+    </div>
+
+    <div class="appendix-category">
+      <h3>Talmud Bavli</h3>
+      <ul class="appendix-list">
+        <li><span class="ref-name">Yoma 54b</span> — Even HaShtiyah</li>
+        <li><span class="ref-name">Pesachim 67a</span> — Three machanot and tumah categories</li>
+        <li><span class="ref-name">Zevachim 116b</span> — Machanot map onto Yerushalayim</li>
+        <li><span class="ref-name">Megillah 28a</span> — Kedusha in desolation</li>
+        <li><span class="ref-name">Brachot 54a</span> — Conduct on Har HaBayit</li>
+        <li><span class="ref-name">Shevuot 16a</span> — Kedusha of the Makom (see Meiri)</li>
+        <li><span class="ref-name">Nazir 47b</span> — Kohen and met in Machane Shechina</li>
+      </ul>
+    </div>
+
+    <div class="appendix-category">
+      <h3>Mishnah</h3>
+      <ul class="appendix-list">
+        <li><span class="ref-name">Middot 2:1</span> — Measurements of Har HaBayit</li>
+      </ul>
+    </div>
+
+    <div class="appendix-category">
+      <h3>Rambam</h3>
+      <ul class="appendix-list">
+        <li><span class="ref-name">Hilchot Beit HaBechira 1:1</span> — Mitzvah to build the Mikdash</li>
+        <li><span class="ref-name">Hilchot Beit HaBechira 2:1–2</span> — Location of the Mizbeach</li>
+        <li><span class="ref-name">Hilchot Beit HaBechira 6:15–16</span> — Eternal kedusha</li>
+        <li><span class="ref-name">Hilchot Beit HaBechira 7:1–7</span> — Mora Mikdash</li>
+        <li><span class="ref-name">Hilchot Biat HaMikdash 3:1–5</span> — Three machanot and exclusions</li>
+        <li><span class="ref-name">Hilchot Mamrim 1–2</span> — Authority of Sanhedrin</li>
+        <li><span class="ref-name">Hilchot Avodah Zarah 10:3–4</span> — Lo Techanem</li>
+        <li><span class="ref-name">Sefer HaMitzvot, Aseh 20</span> — Building the Mikdash</li>
+        <li><span class="ref-name">Iggeret (1165 CE)</span> — Personal ascent to Har HaBayit</li>
+      </ul>
+    </div>
+
+    <div class="appendix-category">
+      <h3>Rishonim &amp; Acharonim</h3>
+      <ul class="appendix-list">
+        <li><span class="ref-name">Radvaz, Responsa 2:691</span> — Even HaShtiyah and site geography</li>
+        <li><span class="ref-name">Kaftor VaFerach, Chapter 6</span> — Physical measurements of the site</li>
+        <li><span class="ref-name">Meiri, Beit HaBechira on Shevuot 16a</span> — Post-Churban entry</li>
+        <li><span class="ref-name">Ramban, Hasagot to Sefer HaMitzvot, Aseh 4</span> — Yishuv Eretz Yisrael</li>
+        <li><span class="ref-name">Taz, Orach Chaim 588</span> — Gezeira cannot permanently uproot a mitzvah</li>
+      </ul>
+    </div>
+
+    <div class="appendix-category">
+      <h3>Contemporary</h3>
+      <ul class="appendix-list">
+        <li><span class="ref-name">Rav Ovadia Yosef, Yabia Omer Vol. 5, YD 26</span> — Prohibits ascending</li>
+        <li><span class="ref-name">Rav Shlomo Goren, Sefer Har HaBayit (1992)</span> — Permits with mapped routes</li>
+        <li><span class="ref-name">Rav Yisrael Ariel, Machon HaMikdash publications</span> — Permits with preparation</li>
+        <li><span class="ref-name">Chief Rabbinate Ban (1967)</span> — Prohibits ascending</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- Closing -->
+<footer class="closing">
+  <div class="closing-hebrew">לשכנו תדרשו ובאת שמה</div>
+  <div class="closing-english">Seek out His dwelling-place, and go there.</div>
+  <div class="closing-ref">Devarim 12:5</div>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // Nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  const overlay = document.getElementById('navOverlay');
+
+  navToggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+  });
+
+  // Show nav toggle after scrolling past hero
+  const hero = document.getElementById('hero');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      navToggle.classList.toggle('visible', !entry.isIntersecting);
+    });
+  }, { threshold: 0 });
+  observer.observe(hero);
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -70% 0px' });
+
+  sections.forEach(section => sectionObserver.observe(section));
+
+  // Close nav on link click
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      overlay.classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
